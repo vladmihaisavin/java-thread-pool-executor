@@ -33,8 +33,9 @@ At that point, MyThreadPoolExecutor will reject the task.
 The internals of MyThread are pretty self explanatory. While the thread pool executor is active,
 the thread will keep on getting new tasks. The thread starts with the task given to it at the initialization.
 After it finished that task, it tries to get and __run__ tasks from the task queue. If the thread does not have any 
-tasks to __run__, it will wait for KEEP_ALIVE_TIME milliseconds, until the thread pool executor notifies it 
-that a new task is in the queue. If the waiting time expires, the thread checks again if there are any tasks left in the task queue.
+tasks to __run__, it will wait for KEEP_ALIVE_TIME milliseconds (extended thread) or indefinitely (core thread),
+until the thread pool executor notifies it that a new task is in the queue. If the waiting time expires or a 
+notify signal is issued by the executor, the thread checks again if there are any tasks left in the task queue. 
 If the task queue is empty, the thread is removed from the thread pool.
 
 When there are no more threads in the thread pool, a `destroy` signal is sent to the thread pool executor and 

@@ -2,12 +2,12 @@ package vladmihaisavin;
 
 public class MyThread extends Thread {
     private MyTask _task;
-    private boolean _isNormalThread;
+    private boolean _isCoreThread;
     private MyThreadPoolExecutor _threadPoolExecutor;
 
-    public MyThread(MyTask task, MyThreadPoolExecutor threadPoolExecutor, boolean isNormalThread) {
+    public MyThread(MyTask task, MyThreadPoolExecutor threadPoolExecutor, boolean isCoreThread) {
         this._task = task;
-        this._isNormalThread = isNormalThread;
+        this._isCoreThread = isCoreThread;
         this._threadPoolExecutor = threadPoolExecutor;
     }
 
@@ -36,7 +36,7 @@ public class MyThread extends Thread {
             } else {
                 try {
                     synchronized (_threadPoolExecutor) {
-                        _threadPoolExecutor.wait(_threadPoolExecutor.getKeepAliveTime());
+                        _threadPoolExecutor.wait(_isCoreThread ? 0 : _threadPoolExecutor.getKeepAliveTime());
                         if (isEmptyTaskQueue()) {
                             _threadPoolExecutor.removeFromThreadPool(this);
                             return;

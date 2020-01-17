@@ -35,7 +35,7 @@ public class Main {
         }
         boolean threadPoolIsActive = true;
         while (threadPoolIsActive) {
-            if (threadPoolExecutor.getThreadPoolSize() == 0) {
+            if (threadPoolExecutor.getThreadPoolSize() == CORE_POOL_SIZE) {
                 threadPoolExecutor.destroy();
                 threadPoolIsActive = false;
             }
